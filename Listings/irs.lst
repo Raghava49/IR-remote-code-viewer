@@ -1,0 +1,62 @@
+C51 COMPILER V9.54   IRS                                                                   03/13/2016 17:59:19 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE IRS
+OBJECT MODULE PLACED IN .\Objects\irs.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE irs.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\irs.l
+                    -st) TABS(2) OBJECT(.\Objects\irs.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <stdio.h>
+   3          #include "uart.h"
+   4          
+   5          unsigned char i,j,k;
+   6          int ir_data[3];
+   7          void uart_ir_init();
+   8          int main()
+   9          {
+  10   1        while(1)
+  11   1        {
+  12   2            uart_ir_init();
+  13   2            for(i=0;i<3;i++)
+  14   2            {
+  15   3              ir_data[i]=uart_rx();
+  16   3            }
+  17   2            uart_init();
+  18   2            printf("\n\n\n\n\n\n\n\n\n\n\n\n__||__||__||__||__||__||__||__||__||__||__||__||__||__||__\n**\t\t\t\t\
+             -t\t\t**\n**\t\t\t\t\t\t\t**\n");
+  19   2            printf("**\t\t   ir status     %x                     **\n",ir_data[0]);
+  20   2            printf("**\t\t   ir command    %x                     **\n",ir_data[1]);
+  21   2            printf("**\t\t   ir data       %x                     **\n**\t\t\t\t\t\t\t**\n**\t\t\t\t\t\t\t**\n\0",i
+             -r_data[2]);
+  22   2            printf("__||__||__||__||__||__||__||__||__||__||__||__||__||__||__ \0");
+  23   2            if(ir_data[2]==0xfa)
+  24   2              P1=~P1;
+  25   2            for(j=0;j<100;j++);
+  26   2            P0=ir_data[2];
+  27   2        }
+  28   1      }
+  29          
+  30          void uart_ir_init()
+  31          {
+  32   1           TMOD=0X22;
+  33   1           TH1=0xE8;
+  34   1           SCON=0X50;
+  35   1           TR1=1;
+  36   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    216    ----
+   CONSTANT SIZE    =    326    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     24    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
